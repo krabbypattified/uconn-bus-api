@@ -3,4 +3,4 @@
 2. Run `yarn start`
 
 # Deploy
-2. Push to GitHub
+1. Push to GitHub
