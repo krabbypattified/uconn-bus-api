@@ -4,7 +4,7 @@ import cors from 'cors'
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express'
 import {schema, rootValue} from './api'
 
-const PORT = 4000
+const PORT = process.env.PORT || 4000
 
 // Express
 const app = express()
