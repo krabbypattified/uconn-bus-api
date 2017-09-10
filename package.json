@@ -5,7 +5,9 @@
   "repository": "https://github.com/krabbypattified/gamble.git",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon --exec babel-node index.js"
+    "start": "nodemon --exec babel-node lib/index.js",
+    "build": "babel lib -d dist",
+    "deploy": "npm run build && git push"
   },
   "dependencies": {
     "apollo-server-express": "^1.1.2",
