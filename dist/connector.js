@@ -5,10 +5,18 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getStopByAltId = exports.getStopsByIds = exports.getStops = exports.getLineById = exports.getLines = exports.getBusById = exports.getLiveBusStats = exports.getArrivalsAtBusStop = exports.getArrivals = undefined;
 
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
 var fetch = function () {
-	var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(opt) {
+	var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(opt) {
 		var res;
-		return regeneratorRuntime.wrap(function _callee$(_context) {
+		return _regenerator2.default.wrap(function _callee$(_context) {
 			while (1) {
 				switch (_context.prev = _context.next) {
 					case 0:
@@ -50,9 +58,9 @@ var fetch = function () {
 
 // EXPORTS
 var getArrivals = exports.getArrivals = function () {
-	var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+	var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
 		var rawArrivals, arrivals;
-		return regeneratorRuntime.wrap(function _callee5$(_context5) {
+		return _regenerator2.default.wrap(function _callee5$(_context5) {
 			while (1) {
 				switch (_context5.prev = _context5.next) {
 					case 0:
@@ -92,8 +100,8 @@ var getArrivals = exports.getArrivals = function () {
 }();
 
 var getArrivalsAtBusStop = exports.getArrivalsAtBusStop = function () {
-	var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(stop) {
-		return regeneratorRuntime.wrap(function _callee6$(_context6) {
+	var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(stop) {
+		return _regenerator2.default.wrap(function _callee6$(_context6) {
 			while (1) {
 				switch (_context6.prev = _context6.next) {
 					case 0:
@@ -143,9 +151,9 @@ var getArrivalsAtBusStop = exports.getArrivalsAtBusStop = function () {
 },...]*/
 
 var getLiveBusStats = exports.getLiveBusStats = function () {
-	var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
+	var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
 		var rawBusStats;
-		return regeneratorRuntime.wrap(function _callee7$(_context7) {
+		return _regenerator2.default.wrap(function _callee7$(_context7) {
 			while (1) {
 				switch (_context7.prev = _context7.next) {
 					case 0:
@@ -179,8 +187,8 @@ var getLiveBusStats = exports.getLiveBusStats = function () {
 }();
 
 var getBusById = exports.getBusById = function () {
-	var _ref8 = _asyncToGenerator(regeneratorRuntime.mark(function _callee8(id) {
-		return regeneratorRuntime.wrap(function _callee8$(_context8) {
+	var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(id) {
+		return _regenerator2.default.wrap(function _callee8$(_context8) {
 			while (1) {
 				switch (_context8.prev = _context8.next) {
 					case 0:
@@ -224,9 +232,9 @@ var getBusById = exports.getBusById = function () {
 `*/
 
 var getLinesAndStops = function () {
-	var _ref9 = _asyncToGenerator(regeneratorRuntime.mark(function _callee9() {
+	var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
 		var rawBusLinesStops, busLines, busStopsObj, busStops, key;
-		return regeneratorRuntime.wrap(function _callee9$(_context9) {
+		return _regenerator2.default.wrap(function _callee9$(_context9) {
 			while (1) {
 				switch (_context9.prev = _context9.next) {
 					case 0:
@@ -284,8 +292,8 @@ var getLinesAndStops = function () {
 }();
 
 var getLines = exports.getLines = function () {
-	var _ref10 = _asyncToGenerator(regeneratorRuntime.mark(function _callee10() {
-		return regeneratorRuntime.wrap(function _callee10$(_context10) {
+	var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
+		return _regenerator2.default.wrap(function _callee10$(_context10) {
 			while (1) {
 				switch (_context10.prev = _context10.next) {
 					case 0:
@@ -309,8 +317,8 @@ var getLines = exports.getLines = function () {
 }();
 
 var getLineById = exports.getLineById = function () {
-	var _ref11 = _asyncToGenerator(regeneratorRuntime.mark(function _callee11(id) {
-		return regeneratorRuntime.wrap(function _callee11$(_context11) {
+	var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11(id) {
+		return _regenerator2.default.wrap(function _callee11$(_context11) {
 			while (1) {
 				switch (_context11.prev = _context11.next) {
 					case 0:
@@ -338,8 +346,8 @@ var getLineById = exports.getLineById = function () {
 }();
 
 var getStops = exports.getStops = function () {
-	var _ref12 = _asyncToGenerator(regeneratorRuntime.mark(function _callee12() {
-		return regeneratorRuntime.wrap(function _callee12$(_context12) {
+	var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12() {
+		return _regenerator2.default.wrap(function _callee12$(_context12) {
 			while (1) {
 				switch (_context12.prev = _context12.next) {
 					case 0:
@@ -363,8 +371,8 @@ var getStops = exports.getStops = function () {
 }();
 
 var getStopsByIds = exports.getStopsByIds = function () {
-	var _ref13 = _asyncToGenerator(regeneratorRuntime.mark(function _callee13(ids) {
-		return regeneratorRuntime.wrap(function _callee13$(_context13) {
+	var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13(ids) {
+		return _regenerator2.default.wrap(function _callee13$(_context13) {
 			while (1) {
 				switch (_context13.prev = _context13.next) {
 					case 0:
@@ -392,8 +400,8 @@ var getStopsByIds = exports.getStopsByIds = function () {
 }();
 
 var getStopByAltId = exports.getStopByAltId = function () {
-	var _ref14 = _asyncToGenerator(regeneratorRuntime.mark(function _callee14(altId) {
-		return regeneratorRuntime.wrap(function _callee14$(_context14) {
+	var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14(altId) {
+		return _regenerator2.default.wrap(function _callee14$(_context14) {
 			while (1) {
 				switch (_context14.prev = _context14.next) {
 					case 0:
@@ -477,8 +485,6 @@ var _lruCache2 = _interopRequireDefault(_lruCache);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
 // TODO frontend caching is Apollo's debounce, backend caching is fetch-cached https://www.npmjs.com/package/fetch-cached
 
 
@@ -487,9 +493,9 @@ var cache = (0, _lruCache2.default)();
 var rootURL = 'http://www.uconnshuttle.com/Services/JSONPRelay.svc';
 
 var getArrivalsRAW = new _dataloader2.default(function () {
-	var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(keys) {
+	var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(keys) {
 		var res;
-		return regeneratorRuntime.wrap(function _callee2$(_context2) {
+		return _regenerator2.default.wrap(function _callee2$(_context2) {
 			while (1) {
 				switch (_context2.prev = _context2.next) {
 					case 0:
@@ -520,9 +526,9 @@ var getArrivalsRAW = new _dataloader2.default(function () {
 }(), { cache: false });
 
 var getLiveBusStatsRAW = new _dataloader2.default(function () {
-	var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(keys) {
+	var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(keys) {
 		var res;
-		return regeneratorRuntime.wrap(function _callee3$(_context3) {
+		return _regenerator2.default.wrap(function _callee3$(_context3) {
 			while (1) {
 				switch (_context3.prev = _context3.next) {
 					case 0:
@@ -552,9 +558,9 @@ var getLiveBusStatsRAW = new _dataloader2.default(function () {
 }(), { cache: false });
 
 var getBusLinesStopsRAW = new _dataloader2.default(function () {
-	var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(keys) {
+	var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(keys) {
 		var res;
-		return regeneratorRuntime.wrap(function _callee4$(_context4) {
+		return _regenerator2.default.wrap(function _callee4$(_context4) {
 			while (1) {
 				switch (_context4.prev = _context4.next) {
 					case 0:
