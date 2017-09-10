@@ -2,8 +2,6 @@ import rp from 'request-promise'
 import DataLoader from 'dataloader'
 import LRU from 'lru-cache'
 
-// TODO frontend caching is Apollo's debounce, backend caching is fetch-cached https://www.npmjs.com/package/fetch-cached
-
 
 
 // CACHE
