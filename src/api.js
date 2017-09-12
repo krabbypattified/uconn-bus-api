@@ -17,8 +17,9 @@ export const schema = buildSchema(`
 	type BusLine {
 		id: Int!
 		name: String!
-		path: String # TODO [[latitude,longitude],...]
+		path: String!
 		stops: [BusStop!]
+		buses: [Bus!]
 	}
 
 	type BusStop {
@@ -27,6 +28,7 @@ export const schema = buildSchema(`
 		latitude: Float!
 		longitude: Float!
 		arrivals: [Arrival!]
+		busLines: [BusLine!]
 	}
 
 	type Arrival {
@@ -36,8 +38,11 @@ export const schema = buildSchema(`
 	}
 
 	type Query {
-		buses: [Bus!]
+		bus(id: Int!): [Bus!]
+		buses: Bus
+		busLine(id: Int!): BusLine
 		busLines: [BusLine!]
+		busStop(id: Int!): BusStop
 		busStops: [BusStop!]
 	}
 `)
@@ -45,7 +50,10 @@ export const schema = buildSchema(`
 
 // Root resolver
 export const rootValue = {
+	buses: args => BusAPI.getBus(args),
 	buses: args => BusAPI.getBuses(args),
+	busLine: args => BusAPI.getBusLine(args),
 	busLines: args => BusAPI.getBusLines(args),
+	busStop: args => BusAPI.getBusStop(args),
 	busStops: args => BusAPI.getBusStops(args),
 }

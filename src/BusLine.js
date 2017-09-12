@@ -1,4 +1,5 @@
-import {getStopsByIds} from './connector'
+import {getStopsByIds, getLiveBusStats} from './connector'
+import Bus from './Bus'
 import BusStop from './BusStop'
 
 export default class BusLine {
@@ -9,5 +10,9 @@ export default class BusLine {
 
 	async stops() {
 		return (await getStopsByIds(this.stopIds)).map(stop => new BusStop(stop))
+	}
+
+	async buses() {
+		return (await getLiveBusStats()).filter(bus => this.id === bus.busLineId).map(bus => new Bus(bus))
 	}
 }

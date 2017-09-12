@@ -147,13 +147,19 @@ async function getLinesAndStops() {
 
 			let theStop = busStopsObj[stop.AddressID]
 
-			theStop ? theStop.altIds.push(stop.RouteStopID)
-			: busStopsObj[stop.AddressID] = {
-				id: stop.AddressID,
-				altIds: [stop.RouteStopID],
-				name: stop.Description,
-				latitude: stop.Latitude,
-				longitude: stop.Longitude,
+			if (theStop) {
+				theStop.altIds.push(stop.RouteStopID)
+				theStop.busLineIds.push(stop.RouteID)
+			}
+			else {
+				busStopsObj[stop.AddressID] = {
+					id: stop.AddressID,
+					busLineIds: [stop.RouteID],
+					altIds: [stop.RouteStopID],
+					name: stop.Description,
+					latitude: stop.Latitude,
+					longitude: stop.Longitude,
+				}
 			}
 		})
 	})
@@ -170,6 +176,10 @@ export async function getLines() {
 	return (await getLinesAndStops()).busLines
 }
 
+export async function getLinesByIds(ids) {
+	return (await getLines()).filter(line => ids.includes(line.id))
+}
+
 export async function getLineById(id) {
 	return (await getLines()).filter(line => id === line.id)[0]
 }
@@ -180,6 +190,10 @@ export async function getStops() {
 
 export async function getStopsByIds(ids) {
 	return (await getStops()).filter(stop => ids.includes(stop.id))
+}
+
+export async function getStopById(id) {
+	return (await getStops()).filter(stop => id === stop.id)[0]
 }
 
 export async function getStopByAltId(altId) {
