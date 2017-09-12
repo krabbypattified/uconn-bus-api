@@ -5,7 +5,7 @@ import BusStop from './BusStop'
 
 export default class BusAPI {
 
-	static async getBuses({id}) {
+	static async getBus({id}) {
 		return new Bus(await getBusById(id))
 	}
 
@@ -13,7 +13,7 @@ export default class BusAPI {
 		return (await getLiveBusStats()).map(bus => new Bus(bus))
 	}
 
-	static async getBusLines({id}) {
+	static async getBusLine({id}) {
 		return new BusLine(await getLineById(id))
 	}
 

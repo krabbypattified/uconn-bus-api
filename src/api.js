@@ -38,11 +38,8 @@ export const schema = buildSchema(`
 	}
 
 	type Query {
-		bus(id: Int!): [Bus!]
-		buses: Bus
-		busLine(id: Int!): BusLine
+		buses: [Bus!]
 		busLines: [BusLine!]
-		busStop(id: Int!): BusStop
 		busStops: [BusStop!]
 	}
 `)
@@ -50,10 +47,7 @@ export const schema = buildSchema(`
 
 // Root resolver
 export const rootValue = {
-	buses: args => BusAPI.getBus(args),
 	buses: args => BusAPI.getBuses(args),
-	busLine: args => BusAPI.getBusLine(args),
 	busLines: args => BusAPI.getBusLines(args),
-	busStop: args => BusAPI.getBusStop(args),
 	busStops: args => BusAPI.getBusStops(args),
 }
