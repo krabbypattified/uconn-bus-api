@@ -138,7 +138,8 @@ async function getLinesAndStops() {
 		id: line.RouteID,
 		name: line.Description,
 		stopIds: line.Stops.map(stop => stop.AddressID),
-		path: line.EncodedPolyline
+		path: line.EncodedPolyline,
+		color: line.MapLineColor,
 	}))
 
 	let busStopsObj = {}

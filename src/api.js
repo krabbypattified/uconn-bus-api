@@ -20,6 +20,7 @@ export const schema = buildSchema(`
 		path: String!
 		stops: [BusStop!]
 		buses: [Bus!]
+		color: String!
 	}
 
 	type BusStop {
