@@ -25,7 +25,7 @@ let getArrivalsRAW = new DataLoader(async keys => {
 		uri: `${rootURL}/GetRouteStopArrivals`,
 		qs: {TimesPerStopString: 4}, // Number of estimated arrivals to show per bus stop
 		json: true,
-		maxAge: 30*1000
+		maxAge: 15*1000
 	})
 	return keys.map(_=>res)
 }, { cache: false })
