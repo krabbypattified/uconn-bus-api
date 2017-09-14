@@ -11,7 +11,7 @@ async function fetch(opt) {
 	if (res) return res
 	console.log(`fetching ${opt.uri}`)
 	res = await rp(opt)
-	cache.set(opt.uri, res, 3000) // max age
+	cache.set(opt.uri, res, opt.maxAge || 0) // max age
 	return res
 }
 
@@ -24,7 +24,8 @@ let getArrivalsRAW = new DataLoader(async keys => {
 	let res = await fetch({
 		uri: `${rootURL}/GetRouteStopArrivals`,
 		qs: {TimesPerStopString: 4}, // Number of estimated arrivals to show per bus stop
-		json: true
+		json: true,
+		maxAge: 30*1000
 	})
 	return keys.map(_=>res)
 }, { cache: false })
@@ -32,7 +33,8 @@ let getArrivalsRAW = new DataLoader(async keys => {
 let getLiveBusStatsRAW = new DataLoader(async keys => {
 	let res = await fetch({
 		uri: `${rootURL}/GetMapVehiclePoints`,
-		json: true
+		json: true,
+		maxAge: 100
 	})
 	return keys.map(_=>res)
 }, { cache: false })
@@ -40,7 +42,8 @@ let getLiveBusStatsRAW = new DataLoader(async keys => {
 let getBusLinesStopsRAW = new DataLoader(async keys => {
 	let res = await fetch({
 		uri: `${rootURL}/GetRoutesForMapWithScheduleWithEncodedLine`,
-		json: true
+		json: true,
+		maxAge: 60*1000*1000
 	})
 	return keys.map(_=>res)
 }, { cache: false })
