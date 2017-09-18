@@ -35,8 +35,7 @@ export const schema = buildSchema(`
 	type Arrival {
 		bus: Bus!
 		stop: BusStop!
-		scheduledTime: Float!
-		ETA: Float
+		time: Float!
 	}
 
 	type Query {

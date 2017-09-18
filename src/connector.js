@@ -65,14 +65,14 @@ export async function getArrivals() {
 				busId: arrival.AssignedVehicleId,
 				busLineId: aList.RouteID,
 				busStopAltId: aList.RouteStopID,
-				scheduledTime: arrival.ArrivalTimeUTC.match(/\d+/)[0],
+				time: arrival.ArrivalTimeUTC.match(/\d+/)[0],
 			}
 		})
 
 		aList['VehicleEstimates'].forEach(arrival => {
 			if (!arrival.AssignedVehicleID in aSubList) return
 			let ETA = Date.now() - arrival.SecondsToStop * 1000
-			aSubList[arrival.AssignedVehicleID].ETA = ETA
+			aSubList[arrival.AssignedVehicleID].time = ETA
 		})
 
 		arrivals.push(aModList)
