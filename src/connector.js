@@ -72,6 +72,7 @@ export async function getArrivals() {
 		aList['VehicleEstimates'].forEach(arrival => {
 			if (!arrival.AssignedVehicleID in aSubList) return
 			let ETA = Date.now() - arrival.SecondsToStop * 1000
+			if (ETA < 0) return
 			aSubList[arrival.AssignedVehicleID].time = ETA
 		})
 
