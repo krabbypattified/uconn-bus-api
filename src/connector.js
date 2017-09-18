@@ -69,12 +69,12 @@ export async function getArrivals() {
 			}
 		})
 
-		aList['VehicleEstimates'].forEach(arrival => {
-			if (!arrival.VehicleID in aModList) return
-			let ETA = Date.now() - arrival.SecondsToStop * 1000
-			if (ETA < 0) return
-			aModList[arrival.VehicleID].time = ETA
-		})
+		// aList['VehicleEstimates'].forEach(arrival => {
+		// 	if (!arrival.VehicleID in aModList) return
+		// 	let ETA = Date.now() - arrival.SecondsToStop * 1000
+		// 	if (ETA < 0) return
+		// 	aModList[arrival.VehicleID].time = ETA
+		// })
 
 		aModList = Object.values(aModList)
 		// console.log(...aModList)
