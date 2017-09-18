@@ -57,11 +57,11 @@ export async function getArrivals() {
 	let arrivals = []
 
 	rawArrivals.forEach(aList => {
-		aModList = {}
+		let aModList = {}
 
 		aList['ScheduledTimes'].forEach(arrival => {
-			if (arrival.AssignedVehicleID in aSubList) return
-			aSubList[arrival.AssignedVehicleId] = {
+			if (arrival.AssignedVehicleId in aModList) return
+			aModList[arrival.AssignedVehicleId] = {
 				busId: arrival.AssignedVehicleId,
 				busLineId: aList.RouteID,
 				busStopAltId: aList.RouteStopID,
@@ -70,13 +70,15 @@ export async function getArrivals() {
 		})
 
 		aList['VehicleEstimates'].forEach(arrival => {
-			if (!arrival.AssignedVehicleID in aSubList) return
+			if (!arrival.VehicleID in aModList) return
 			let ETA = Date.now() - arrival.SecondsToStop * 1000
 			if (ETA < 0) return
-			aSubList[arrival.AssignedVehicleID].time = ETA
+			aModList[arrival.VehicleID].time = ETA
 		})
 
-		arrivals.push(aModList)
+		aModList = Object.values(aModList)
+		// console.log(...aModList)
+		arrivals.push(...aModList)
 	})
 
 	return arrivals
