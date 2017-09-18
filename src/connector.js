@@ -57,15 +57,25 @@ export async function getArrivals() {
 	let arrivals = []
 
 	rawArrivals.forEach(aList => {
-		aList['VehicleEstimates'].forEach(arrival => {
-			arrivals.push({
-				busId: arrival.VehicleID,
+		aModList = {}
+
+		aList['ScheduledTimes'].forEach(arrival => {
+			if (arrival.AssignedVehicleID in aSubList) return
+			aSubList[arrival.AssignedVehicleId] = {
+				busId: arrival.AssignedVehicleId,
 				busLineId: aList.RouteID,
 				busStopAltId: aList.RouteStopID,
-				secondsLeft: arrival.SecondsToStop,
-				ETA: Date.now() - arrival.SecondsToStop * 1000
-			})
+				scheduledTime: arrival.ArrivalTimeUTC.match(/\d+/)[0],
+			}
 		})
+
+		aList['VehicleEstimates'].forEach(arrival => {
+			if (!arrival.AssignedVehicleID in aSubList) return
+			let ETA = Date.now() - arrival.SecondsToStop * 1000
+			aSubList[arrival.AssignedVehicleID].ETA = ETA
+		})
+
+		arrivals.push(aModList)
 	})
 
 	return arrivals
