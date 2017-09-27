@@ -150,7 +150,7 @@ export async function getBusById(id) {
 	let bus = busStats.filter(bus => id === bus.id)[0]
 	if (bus) return bus
 	// if bus not found among active buses for some WEIRD reason
-	bus = (await getVehicleRoutesRAW()).filter(bus => bus.VehicleID === id)[0]
+	bus = (await getVehicleRoutesRAW.load('')).filter(bus => bus.VehicleID === id)[0]
 	return {
 		id,
 		busLineId: bus.RouteID
