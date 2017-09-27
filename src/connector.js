@@ -43,10 +43,30 @@ let getBusLinesStopsRAW = new DataLoader(async keys => {
 	let res = await fetch({
 		uri: `${rootURL}/GetRoutesForMapWithScheduleWithEncodedLine`,
 		json: true,
-		maxAge: 60*1000*1000
+		maxAge: 24*60*60*1000 // 1 day
 	})
 	return keys.map(_=>res)
 }, { cache: false })
+
+let getVehicleRoutesRAW = new DataLoader(async keys => {
+	let res = await fetch({
+		uri: `${rootURL}/GetVehicleRoutes`,
+		json: true,
+		maxAge: 24*60*60*1000 // 1 day
+	})
+	return keys.map(_=>res)
+}, { cache: false })
+/*[{
+	UniqueID: "fb6e056e-e9b1-43ea-9974-0b25e2f1f202",
+	DelayedStartTime: "/Date(-62135571600000-0700)/",
+	FromAdmin: false,
+	GpsGateUserName: "uconn25",
+	IsDelayed: false,
+	PersonID: 6,
+	RouteID: 0,								Bus Line ID
+	VehicleID: 54,							Bus ID
+	VehicleName: "1701"
+}...]*/
 
 
 
@@ -126,7 +146,15 @@ export async function getLiveBusStats() {
 }
 
 export async function getBusById(id) {
-	return (await getLiveBusStats()).filter(bus => id === bus.id)[0]
+	let busStats = await getLiveBusStats()
+	let bus = busStats.filter(bus => id === bus.id)[0]
+	if (bus) return bus
+	// if bus not found among active buses for some WEIRD reason
+	bus = (await getVehicleRoutesRAW()).filter(bus => bus.VehicleID === id)[0]
+	return {
+		id,
+		busLineId: bus.RouteID
+	}
 }
 
 // NOTE this is the current location of all the buses

@@ -1,15 +1,14 @@
 import {buildSchema} from 'graphql'
 import BusAPI from './BusAPI'
 
-
 // Schema
 export const schema = buildSchema(`
 	type Bus {
 		id: Int!
-		latitude: Float!
-		longitude: Float!
-		heading: Float!
-		speed: Float!
+		latitude: Float
+		longitude: Float
+		heading: Float
+		speed: Float
 		busLine: BusLine!
 		arrivals: [Arrival!]
 	}
@@ -39,8 +38,11 @@ export const schema = buildSchema(`
 	}
 
 	type Query {
+		bus(id: Int!): Bus
 		buses: [Bus!]
+		busLine(id: Int!): BusLine
 		busLines: [BusLine!]
+		busStop(id: Int!): BusStop
 		busStops: [BusStop!]
 	}
 `)
@@ -48,7 +50,10 @@ export const schema = buildSchema(`
 
 // Root resolver
 export const rootValue = {
+	bus: args => BusAPI.getBus(args),
 	buses: args => BusAPI.getBuses(args),
+	busLine: args => BusAPI.getBusLine(args),
 	busLines: args => BusAPI.getBusLines(args),
+	busStop: args => BusAPI.getBusStop(args),
 	busStops: args => BusAPI.getBusStops(args),
 }
