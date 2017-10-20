@@ -27,6 +27,8 @@ export default async ({start, end}) => {
       endStops.forEach(s2 => checkOptions(stop, s2))
     }
   })
+
+  return bestOption
 }
 
 
@@ -85,7 +87,7 @@ async function getNearestStops({start, end, min, distance}) {
   // Where to break
   let includedStopIds = []
   for (var i = 0; i < sortedStops.length; i++) {
-    if (includedStopIds.contains(sortedStops[i].val.id)) break // no doubles allowed
+    if (includedStopIds.includes(sortedStops[i].val.id)) break // no doubles allowed
     if (sortedStops[i].distance > .25 && i+1 > min) break
     includedStopIds.push(sortedStops[i].val.id)
   }
