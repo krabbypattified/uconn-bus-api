@@ -1,16 +1,19 @@
+import BusAPI from './BusAPI'
+
+
 let startLocation
 let endLocation
 let bestOption
 
 
-export default ({start, end}) => {
+export default async ({start, end}) => {
   startLocation = start
   endLocation = end
   bestOption = null
   // add one nearest stop at a time, start, end, start, end, start, etc...
   // forEach(start.stop), check all the end.stops (& vice versa)
   // stop checking when you've checked at least 6 stops each and all stops within 1/4 mile
-  let stops = getNearestStops({start, end, min:12, distance:.25})
+  let stops = await getNearestStops({start, end, min:12, distance:.25})
   let startStops = []
   let endStops = []
 
@@ -28,23 +31,31 @@ export default ({start, end}) => {
 
 
 // Check our best options!
-function checkOptions(startStop, endStop) {
+async function checkOptions(startStop, endStop) {
 
   // Find busLines that go to both stops
-  let {arr1:busLines} = intersection(startStop.getBusLines, endStop.getBusLines, 'id') // TODO get the busLines
+  let {arr1:busLines} = intersection((await startStop.busLines()), (await endStop.busLines()), 'id')
+  let arrivals = await startStop.arrivals()
 
-  busLines.forEach(busLine => {
+  busLines.forEach(async busLine => {
 
-      // Get next compatible start arrival for a busLine and its respective endArrival
-      let arrivals = startStop.arrivals.filterBy(busLine) // TODO
-      for (let i = 0; i < arrivals.length; i++) {
-        if (arrivals[i].ETA > walkETA(startLocation, startStop)) break // TODO
+      // Get next compatible start arrival
+      let arrivalsForLine = await filter(arrivals, async arrival => (await arrival.bus()).busLineId === busLine.id)
+      for (let i = 0; i < arrivalsForLine.length; i++) {
+        if (arrivalsForLine[i].time > arrivalTime(startLocation, startStop)) break
       }
-      let nextCompatibleArrival = arrivals[i]
-      let endArrival = endStop.arrivals.filter(nextCompatibleArrival.bus.id, afterNextCompatibleArrival.ETA) // TODO
+      let nextCompatibleArrival = arrivalsForLine[i]
+
+      // Get its respective end arrival
+      let endStopArrivals = await endStop.arrivals()
+      for (let i = 0; i < endStopArrivals.length; i++) {
+        if (endStopArrivals[i].busId === nextCompatibleArrival.bus.id &&
+            endStopArrivals[i].time > nextCompatibleArrival.time) break
+      }
+      let endArrival = endStopArrivals[i]
 
       // Compare both destinationETA's
-      let destinationETA = endArrival.ETA + walkTime(endStop, startStop) // TODO
+      let destinationETA = endArrival.time + walkTime(endStop, endLocation)
       let weHaveAWinner = destinationETA < (bestRoute.destinationETA || Infinity)
 
       // Update the bestRoute
@@ -59,9 +70,15 @@ function checkOptions(startStop, endStop) {
 
 
 // Helpers
-function getNearestStops({start, end, min, distance}) {
-  let startStops = sortStopsByDistanceFrom(start, 0)
-  let endStops = sortStopsByDistanceFrom(end, 1)
+async function filter(arr, callback) {
+	return (await Promise.all(arr.map(async item => {
+		 return (await callback(item)) ? item : undefined
+	}))).filter(i=>i!==undefined)
+}
+
+async function getNearestStops({start, end, min, distance}) {
+  let startStops = await sortStopsByDistanceFrom(start, 0)
+  let endStops = await sortStopsByDistanceFrom(end, 1)
 
   let sortedStops = [...startStops, ...endStops].sort((a,b) => a.distance - b.distance)
 
@@ -76,8 +93,8 @@ function getNearestStops({start, end, min, distance}) {
   return sortedStops.slice(0,i)
 }
 
-function sortStopsByDistanceFrom(lngLat, group) {
-  let stops = allBusStops.map(stop => ({ // TODO get all bus stops
+async function sortStopsByDistanceFrom(lngLat, group) {
+  let stops = (await BusAPI.getBusStops()).map(stop => ({
     val: stop,
     group,
     distance: distance(lngLat, stop)
@@ -89,6 +106,15 @@ function sortStopsByDistanceFrom(lngLat, group) {
 function distance(from, to) {
   let d2 = (from.latitude - to.latitude)^2 + (from.longitude - to.longitude)^2
   return Math.sqrt(d2) * 60.7053 // for miles (hacky)
+}
+
+function walkTime(from, to, mph=4) {
+	let speed = mph / 60*60*1000
+	return distance(from, to) / speed
+}
+
+function arrivalTime(from, to, mph=4) {
+	return Date.now() + walkTime(from, to, mph)
 }
 
 function intersection(arr1_, arr2_, path) {
