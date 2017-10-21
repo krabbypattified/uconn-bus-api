@@ -9,6 +9,7 @@
   },
   "scripts": {
     "start": "nodemon --exec babel-node src/index.js",
+    "start-debug": "nodemon --exec babel-node --inspect src/index.js",
     "build": "babel src -d dist"
   },
   "dependencies": {

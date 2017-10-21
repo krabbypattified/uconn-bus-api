@@ -20,11 +20,11 @@ export default async ({start, end}) => {
   stops.forEach(stop => {
     if (stop.group) { // stop is an endStop
       endStops.push(stop)
-      startStops.forEach(s2 => checkOptions(s2, stop))
+      startStops.forEach(s2 => checkOptions(s2.val, stop.val))
     }
     else { // stop is a startStop
       startStops.push(stop)
-      endStops.forEach(s2 => checkOptions(stop, s2))
+      endStops.forEach(s2 => checkOptions(stop.val, s2.val))
     }
   })
 
@@ -43,18 +43,20 @@ async function checkOptions(startStop, endStop) {
 
       // Get next compatible start arrival
       let arrivalsForLine = await filter(arrivals, async arrival => (await arrival.bus()).busLineId === busLine.id)
-      for (let i = 0; i < arrivalsForLine.length; i++) {
+      for (var i = 0; i < arrivalsForLine.length; i++) {
         if (arrivalsForLine[i].time > arrivalTime(startLocation, startStop)) break
       }
       let nextCompatibleArrival = arrivalsForLine[i]
+      if (!nextCompatibleArrival) return
 
       // Get its respective end arrival
       let endStopArrivals = await endStop.arrivals()
-      for (let i = 0; i < endStopArrivals.length; i++) {
+      for (var i = 0; i < endStopArrivals.length; i++) {
         if (endStopArrivals[i].busId === nextCompatibleArrival.bus.id &&
             endStopArrivals[i].time > nextCompatibleArrival.time) break
       }
       let endArrival = endStopArrivals[i]
+      if (!endArrival) return
 
       // Compare both destinationETA's
       let destinationETA = endArrival.time + walkTime(endStop, endLocation)
@@ -144,7 +146,7 @@ function find(obj, path) {
     , current = obj
     , i;
 
-  for (i = 0; i < paths.length; ++i) {
+  for (var i = 0; i < paths.length; ++i) {
     if (current[paths[i]] === undefined) {
       return undefined;
     } else {
