@@ -6,14 +6,14 @@ let endLocation
 let bestOption
 
 
-export default async ({start, end}) => {
-  startLocation = start
-  endLocation = end
+export default async ({from, to}) => {
+  startLocation = from
+  endLocation = to
   bestOption = null
   // add one nearest stop at a time, start, end, start, end, start, etc...
   // forEach(start.stop), check all the end.stops (& vice versa)
   // stop checking when you've checked at least 6 stops each and all stops within 1/4 mile
-  let stops = await getNearestStops({start, end, min:12, distance:.25})
+  let stops = await getNearestStops({from, to, min:12, distance:.25})
   let startStops = []
   let endStops = []
 
@@ -30,6 +30,8 @@ export default async ({start, end}) => {
 
   return bestOption
 }
+
+
 
 
 // Check our best options!
@@ -80,11 +82,15 @@ async function filter(arr, callback) {
 	}))).filter(i=>i!==undefined)
 }
 
-async function getNearestStops({start, end, min, distance}) {
-  let startStops = await sortStopsByDistanceFrom(start, 0)
-  let endStops = await sortStopsByDistanceFrom(end, 1)
+async function getNearestStops({from, to, min, distance}) {
+  let startStops = await sortStopsByDistanceFrom(from, 0)
+  let endStops = await sortStopsByDistanceFrom(to, 1)
+
+  let closeStart = startStops.splice(0,1)[0]
+  let closeEnd = endStops.splice(0,1)[0]
 
   let sortedStops = [...startStops, ...endStops].sort((a,b) => a.distance - b.distance)
+  sortedStops = [closeStart, closeEnd, ...sortedStops]
 
   // Where to break
   let includedStopIds = []

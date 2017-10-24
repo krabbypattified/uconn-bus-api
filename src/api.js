@@ -1,6 +1,6 @@
 import {buildSchema} from 'graphql'
 import BusAPI from './BusAPI'
-import bestRoute from './bestRoute'
+import directions from './directions'
 
 // Schema
 export const schema = buildSchema(`
@@ -55,7 +55,7 @@ export const schema = buildSchema(`
     busLines: [BusLine!]
     busStop(id: Int!): BusStop
     busStops: [BusStop!]
-    bestRoute(start:LngLat!, end: LngLat!): Route
+    directions(from:LngLat!, to: LngLat!): Route
   }
 `)
 
@@ -68,5 +68,5 @@ export const rootValue = {
   busLines: args => BusAPI.getBusLines(args),
   busStop: args => BusAPI.getBusStop(args),
   busStops: args => BusAPI.getBusStops(args),
-  bestRoute: args => bestRoute(args),
+  directions: args => directions(args),
 }
