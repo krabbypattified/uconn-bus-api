@@ -23,7 +23,7 @@ const rootURL = 'http://www.uconnshuttle.com/Services/JSONPRelay.svc'
 let getArrivalsRAW = new DataLoader(async keys => {
 	let res = await fetch({
 		uri: `${rootURL}/GetRouteStopArrivals`,
-		qs: {TimesPerStopString: 4}, // Number of estimated arrivals to show per bus stop
+		qs: {TimesPerStopString: 20}, // Number of estimated arrivals to show per bus stop
 		json: true,
 		maxAge: 15*1000
 	})
@@ -73,39 +73,56 @@ let getVehicleRoutesRAW = new DataLoader(async keys => {
 // EXPORTS
 export async function getArrivals() {
 	let rawArrivals = await getArrivalsRAW.load('')
-
 	let arrivals = []
 
 	rawArrivals.forEach(aList => {
-		let aModList = {}
-
 		aList['ScheduledTimes'].forEach(arrival => {
-			if (arrival.AssignedVehicleId in aModList) return
-			aModList[arrival.AssignedVehicleId] = {
+			arrivals.push({
 				busId: arrival.AssignedVehicleId,
 				busLineId: aList.RouteID,
 				busStopAltId: aList.RouteStopID,
 				time: arrival.ArrivalTimeUTC.match(/\d+/)[0],
-			}
+			})
 		})
-
-		// aList['VehicleEstimates'].forEach(arrival => {
-		// 	if (!arrival.VehicleID in aModList) return
-		// 	let ETA = Date.now() - arrival.SecondsToStop * 1000
-		// 	if (ETA < 0) return
-		// 	aModList[arrival.VehicleID].time = ETA
-		// })
-
-		aModList = Object.values(aModList)
-		// console.log(...aModList)
-		arrivals.push(...aModList)
 	})
 
 	return arrivals
 }
+// export async function getArrivals() {
+// 	let rawArrivals = await getArrivalsRAW.load('')
+// 	let arrivals = []
+//
+// 	rawArrivals.forEach(aList => {
+// 		let aModList = {}
+//
+// 		aList['ScheduledTimes'].forEach(arrival => {
+// 			if (arrival.AssignedVehicleId in aModList) return
+// 			aModList[arrival.AssignedVehicleId] = {
+// 				busId: arrival.AssignedVehicleId,
+// 				busLineId: aList.RouteID,
+// 				busStopAltId: aList.RouteStopID,
+// 				time: arrival.ArrivalTimeUTC.match(/\d+/)[0],
+// 			}
+// 		})
+//
+// 		// aList['VehicleEstimates'].forEach(arrival => {
+// 		// 	if (!arrival.VehicleID in aModList) return
+// 		// 	let ETA = Date.now() - arrival.SecondsToStop * 1000
+// 		// 	if (ETA < 0) return
+// 		// 	aModList[arrival.VehicleID].time = ETA
+// 		// })
+//
+// 		aModList = Object.values(aModList)
+// 		arrivals.push(...aModList)
+// 	})
+//
+// 	return arrivals
+// }
 
 export async function getArrivalsAtBusStop(stop) {
-	return (await getArrivals()).filter(arrival => stop.altIds.includes(arrival.busStopAltId))
+  let x = await getArrivals()
+	let y = x.filter(arrival => stop.altIds.includes(arrival.busStopAltId))
+  return y
 }
 
 // NOTE this repeats for EVERY bus stop on EVERY bus line

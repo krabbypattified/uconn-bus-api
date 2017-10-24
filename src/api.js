@@ -10,8 +10,9 @@ export const schema = buildSchema(`
   }
 
   type Route {
-    arrival: Arrival
-    end: BusStop
+    hopOn: Arrival!
+    hopOff: Arrival!
+    walkETA: Float!
   }
 
   type Bus {

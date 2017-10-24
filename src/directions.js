@@ -1,31 +1,28 @@
 import BusAPI from './BusAPI'
 
 
-let startLocation
-let endLocation
-let bestOption
-
+let startLocation, endLocation, bestOption
 
 export default async ({from, to}) => {
   startLocation = from
   endLocation = to
   bestOption = null
-  // add one nearest stop at a time, start, end, start, end, start, etc...
-  // forEach(start.stop), check all the end.stops (& vice versa)
-  // stop checking when you've checked at least 6 stops each and all stops within 1/4 mile
+
+  // Get {from,to} nearest stops
   let stops = await getNearestStops({from, to, min:12, distance:.25})
   let startStops = []
   let endStops = []
 
-  stops.forEach(stop => {
-    if (stop.group) { // stop is an endStop
-      endStops.push(stop)
-      startStops.forEach(s2 => checkOptions(s2.val, stop.val))
-    }
-    else { // stop is a startStop
-      startStops.push(stop)
-      endStops.forEach(s2 => checkOptions(stop.val, s2.val))
-    }
+  // Calculate the best route
+  await forEach(stops, async stop => {
+      if (stop.group) { // stop is an endStop
+          endStops.push(stop)
+          await forEach(startStops, async s2 => checkOptions(s2.val, stop.val))
+      }
+      else { // stop is a startStop
+          startStops.push(stop)
+          await forEach(endStops, async s2 => checkOptions(stop.val, s2.val))
+      }
   })
 
   return bestOption
@@ -34,6 +31,13 @@ export default async ({from, to}) => {
 
 
 
+
+
+
+
+
+// Helpers
+
 // Check our best options!
 async function checkOptions(startStop, endStop) {
 
@@ -41,7 +45,7 @@ async function checkOptions(startStop, endStop) {
   let {arr1:busLines} = intersection((await startStop.busLines()), (await endStop.busLines()), 'id')
   let arrivals = await startStop.arrivals()
 
-  busLines.forEach(async busLine => {
+  await forEach(busLines, async busLine => {
 
       // Get next compatible start arrival
       let arrivalsForLine = await filter(arrivals, async arrival => (await arrival.bus()).busLineId === busLine.id)
@@ -54,7 +58,7 @@ async function checkOptions(startStop, endStop) {
       // Get its respective end arrival
       let endStopArrivals = await endStop.arrivals()
       for (var i = 0; i < endStopArrivals.length; i++) {
-        if (endStopArrivals[i].busId === nextCompatibleArrival.bus.id &&
+        if (endStopArrivals[i].busId === nextCompatibleArrival.busId &&
             endStopArrivals[i].time > nextCompatibleArrival.time) break
       }
       let endArrival = endStopArrivals[i]
@@ -62,20 +66,19 @@ async function checkOptions(startStop, endStop) {
 
       // Compare both destinationETA's
       let destinationETA = endArrival.time + walkTime(endStop, endLocation)
-      let weHaveAWinner = destinationETA < (bestRoute.destinationETA || Infinity)
+      let weHaveAWinner = destinationETA < (bestOption && bestOption.destinationETA || Infinity)
 
-      // Update the bestRoute
-      if (weHaveAWinner) bestRoute = {
+      // Update the bestOption
+      if (weHaveAWinner) bestOption = {
         destinationETA,
-        arrival: nextCompatibleArrival,
-        end: endStop,
+        hopOn: nextCompatibleArrival,
+        hopOff: endArrival,
+        walkETA: arrivalTime(startLocation, endLocation)
       }
   })
-
 }
 
 
-// Helpers
 async function filter(arr, callback) {
 	return (await Promise.all(arr.map(async item => {
 		 return (await callback(item)) ? item : undefined
@@ -103,6 +106,7 @@ async function getNearestStops({from, to, min, distance}) {
   return sortedStops.slice(0,i)
 }
 
+
 async function sortStopsByDistanceFrom(lngLat, group) {
   let stops = (await BusAPI.getBusStops()).map(stop => ({
     val: stop,
@@ -113,19 +117,32 @@ async function sortStopsByDistanceFrom(lngLat, group) {
   return stops.sort((a,b) => a.distance - b.distance)
 }
 
+
+async function forEach(items, fn) {
+  if (items && items.length) {
+    await Promise.all(
+      items.map(async item => await fn(item))
+    )
+  }
+}
+
+
 function distance(from, to) {
-  let d2 = (from.latitude - to.latitude)^2 + (from.longitude - to.longitude)^2
+  let d2 = Math.pow(from.latitude - to.latitude, 2) + Math.pow(from.longitude - to.longitude, 2)
   return Math.sqrt(d2) * 60.7053 // for miles (hacky)
 }
+
 
 function walkTime(from, to, mph=4) {
 	let speed = mph / 60*60*1000
 	return distance(from, to) / speed
 }
 
+
 function arrivalTime(from, to, mph=4) {
 	return Date.now() + walkTime(from, to, mph)
 }
+
 
 function intersection(arr1_, arr2_, path) {
 	let intersect1 = []
@@ -145,6 +162,7 @@ function intersection(arr1_, arr2_, path) {
 
 	return {arr1:intersect1,arr2:intersect2}
 }
+
 
 // https://stackoverflow.com/questions/8817394
 function find(obj, path) {
