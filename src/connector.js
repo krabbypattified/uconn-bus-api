@@ -183,7 +183,7 @@ async function getLinesAndStops() {
 		name: line.Description,
 		stopIds: line.Stops.map(stop => stop.AddressID),
 		path: line.EncodedPolyline,
-		color: line.MapLineColor,
+		color: color(line),
 	}))
 
 	let busStopsObj = {}
@@ -286,3 +286,19 @@ export async function getStopByAltId(altId) {
 	]
 },...]
 */
+
+
+// Color Helper
+function color(line) {
+  switch(line.RouteID) {
+    case 33: return '#a566ff' // Purple
+    case 35: return '#4c53e4' // Blue
+    case 31: return '#42c65f' // Green
+    case 32: return '#ff962d' // Orange
+    case 34: return '#acacac' // Silver
+    case 36: return '#333333' // Late Night
+    case 30: return '#ff86b9' // UCONN Health
+    case 20: return '#ac7d51' // Charters & Specials
+    default: return '#cd0000'
+  }
+}
