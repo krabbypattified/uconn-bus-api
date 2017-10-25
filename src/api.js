@@ -13,6 +13,7 @@ export const schema = buildSchema(`
     hopOn: Arrival!
     hopOff: Arrival!
     walkETA: Float!
+    path: String!
   }
 
   type Bus {

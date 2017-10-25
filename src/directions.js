@@ -1,4 +1,5 @@
 import BusAPI from './BusAPI'
+import polyline from '@mapbox/polyline'
 
 
 let startLocation, endLocation, bestOption
@@ -73,7 +74,8 @@ async function checkOptions(startStop, endStop) {
         destinationETA,
         hopOn: nextCompatibleArrival,
         hopOff: endArrival,
-        walkETA: arrivalTime(startLocation, endLocation)
+        walkETA: arrivalTime(startLocation, endLocation),
+        path: trimLine(busLine.path, startStop, endStop)
       }
   })
 }
@@ -178,4 +180,43 @@ function find(obj, path) {
     }
   }
   return current;
+}
+
+
+// Line Tools
+function trimLine(_line, start, end) {
+  let line = polyline.decode(_line)
+
+  let sMins = findLocalMins(line, start)
+  let eMins = findLocalMins(line, end)
+
+  // find closest (by array idx) start-end pair where startIndex < endIndex
+  let matches = []
+  for (let i = 0; i < sMins.length; i++) {
+    for (let j = 0; j < eMins.length; j++) {
+      if (sMins[i] < eMins[j]) {
+        matches.push([sMins[i], eMins[j]])
+        break
+      }
+    }
+  }
+  let best = matches.reduce((a,b) => {
+    let aV = a[1] - a[0]
+    let bV = b[1] - b[0]
+    return aV < bV ? a : b
+  })
+
+  return polyline.encode(line.slice(best[0], best[1] + 1))
+}
+
+
+function findLocalMins(line, lngLat) {
+  let lineMap = line.map((coord, idx) => ({
+    distance: distance(lngLat, {latitude:coord[0],longitude:coord[1]}), // coord: [lat, lon]
+    idx
+  }))
+
+  return lineMap
+    .filter(data => lineMap[data.idx-1].distance > data.distance && lineMap[data.idx+1].distance > data.distance)
+    .map(data=>data.idx)
 }
