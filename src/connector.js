@@ -69,13 +69,25 @@ let getVehicleRoutesRAW = new DataLoader(async keys => {
 }...]*/
 
 
+let ROUTESTOPIDSET = new Set()
+getBusLinesStopsRAW.load('').then(raw => {
+  raw.forEach(line => {
+    line.Stops.forEach(stop => ROUTESTOPIDSET.add(stop.RouteStopID))
+  })
+})
+
+
 
 // EXPORTS
+
 export async function getArrivals() {
 	let rawArrivals = await getArrivalsRAW.load('')
 	let arrivals = []
 
 	rawArrivals.forEach(aList => {
+    // Bugfix
+    if (!ROUTESTOPIDSET.has(aList.RouteStopID)) return
+
 		aList['ScheduledTimes'].forEach(arrival => {
 			arrivals.push({
 				busId: arrival.AssignedVehicleId,
