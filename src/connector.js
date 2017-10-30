@@ -328,6 +328,9 @@ function color(line) {
     case 36: return '#333333' // Late Night
     case 30: return '#ff86b9' // UCONN Health
     case 20: return '#ac7d51' // Charters & Specials
-    default: return '#cd0000'
+    default: {
+      console.log('color bug', line.RouteID)
+      return '#cd0000'
+    }
   }
 }

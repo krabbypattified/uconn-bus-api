@@ -187,43 +187,22 @@ function find(obj, path) {
 function trimLine(_line, start, end) {
   let line = polyline.decode(_line)
 
-  let sMins = findLocalMins(line, start)
-  let eMins = findLocalMins(line, end)
+  let sMin = findMin(line, start)
+  let eMin = findMin(line, end)
 
-  // Find closest (by array idx) start-end pair
-  let matches = []
-  for (let i = 0; i < sMins.length; i++) {
-    for (let j = 0; j < eMins.length; j++) {
-        matches.push([sMins[i], eMins[j]])
-    }
-  }
+  if (sMin < eMin) line = slice.slice(sMin, eMin + 1) // start,smin,slice,emin,end
+  else line.splice(eMin + 1, sMin-eMin-1) // start,emin,SPLICE,smin,end
 
-  // Closest indices with respect to a looping array
-  let best = matches.reduce((acc,cur) => {
-    let len = line.length
-    let a = Math.abs(cur[0]-cur[1])
-    let b = Math.abs(cur[0]<cur[1] ? cur[0] + len - cur[1] : cur[1] + len - cur[0])
-    let dist = Math.min(a,b)
-
-    return dist < (acc[2]) ? [...cur, dist] : acc
-  }, [0,0,Infinity])
-  best = best[0]<best[1] ? [best[0],best[1]] : [best[1], best[0]]
-
-  return polyline.encode(line.slice(best[0], best[1] + 1))
+  return polyline.encode(line)
 }
 
 
-function findLocalMins(line, lngLat) {
+function findMin(line, lngLat) {
   let lineMap = line.map((coord, idx) => ({
     distance: distance(lngLat, {latitude:coord[0],longitude:coord[1]}), // coord: [lat, lon]
     idx
   }))
 
-  return lineMap
-    .filter(data => {
-      let lastDistance = lineMap[data.idx-1] ? lineMap[data.idx-1].distance : lineMap[lineMap.length-1].distance
-      let nextDistance = lineMap[data.idx+1] ? lineMap[data.idx+1].distance : lineMap[0].distance
-      return lastDistance > data.distance && nextDistance > data.distance
-    })
-    .map(data=>data.idx)
+  let best = lineMap.reduce((a,b) => a.distance < b.distance ? a : b)
+  return best.idx
 }
