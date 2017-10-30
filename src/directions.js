@@ -190,7 +190,7 @@ function trimLine(_line, start, end) {
   let sMin = findMin(line, start)
   let eMin = findMin(line, end)
 
-  if (sMin < eMin) line = slice.slice(sMin, eMin + 1) // start,smin,slice,emin,end
+  if (sMin < eMin) line = line.slice(sMin, eMin + 1) // start,smin,slice,emin,end
   else line.splice(eMin + 1, sMin-eMin-1) // start,emin,SPLICE,smin,end
 
   return polyline.encode(line)

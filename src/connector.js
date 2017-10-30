@@ -320,7 +320,7 @@ export async function getStopByAltId(altId) {
 // Color Helper
 function color(line) {
   switch(line.RouteID) {
-    case 33: return '#a566ff' // Purple
+    case 39: return '#a566ff' // Purple
     case 35: return '#4c53e4' // Blue
     case 31: return '#42c65f' // Green
     case 32: return '#ff962d' // Orange
@@ -328,6 +328,8 @@ function color(line) {
     case 36: return '#333333' // Late Night
     case 30: return '#ff86b9' // UCONN Health
     case 20: return '#ac7d51' // Charters & Specials
+    case 37: return '#7adde0' // Weekend
+    case 38: return '#ff4141' // Red
     default: {
       console.log('color bug', line.RouteID)
       return '#cd0000'
