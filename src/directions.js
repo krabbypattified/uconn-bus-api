@@ -197,7 +197,12 @@ function trimLine(_line, start, end) {
     eMins.forEach(eMin => {
       let poss = line.slice(0)
       if (sMin < eMin) poss = poss.slice(sMin, eMin + 1) // start,smin,slice,emin,end
-      else poss.splice(eMin + 1, sMin-eMin-1) // start,emin,SPLICE,smin,end
+      else {
+        // start,emin,SPLICE,smin,end, REVERSE segments
+        let seg1 = poss.slice(0, eMin + 1)
+        let seg2 = poss.slice(sMin, poss.length)
+        poss = [...seg2, ...seg1]
+      }
       possibles.push(poss)
     })
   })
