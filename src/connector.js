@@ -136,7 +136,7 @@ export async function getArrivalsAtBusStop(stop) {
 }
 
 export async function getArrivalsForBus(bus) {
-	return (await getArrivals()).filter(arrival => bus.id.includes(arrival.busId))
+	return (await getArrivals()).filter(arrival => bus.id===arrival.busId)
 }
 
 // NOTE this repeats for EVERY bus stop on EVERY bus line
