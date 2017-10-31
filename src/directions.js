@@ -214,5 +214,5 @@ function findMins(line, lngLat, num) {
     idx
   })).sort((a,b)=>a.distance - b.distance)
 
-  return lineMap.slice(0,num)
+  return lineMap.slice(0,num).map(m=>m.idx)
 }
