@@ -187,22 +187,32 @@ function find(obj, path) {
 function trimLine(_line, start, end) {
   let line = polyline.decode(_line)
 
-  let sMin = findMin(line, start)
-  let eMin = findMin(line, end)
+  // Find 2 closest points to start/end stops
+  let sMins = findMins(line, start, 2)
+  let eMins = findMins(line, end, 2)
 
-  if (sMin < eMin) line = line.slice(sMin, eMin + 1) // start,smin,slice,emin,end
-  else line.splice(eMin + 1, sMin-eMin-1) // start,emin,SPLICE,smin,end
+  // Find corresponding shortest line
+  let possibles = []
+  sMins.forEach(sMin => {
+    eMins.forEach(eMin => {
+      let poss = line.slice(0)
+      if (sMin < eMin) poss = poss.slice(sMin, eMin + 1) // start,smin,slice,emin,end
+      else poss.splice(eMin + 1, sMin-eMin-1) // start,emin,SPLICE,smin,end
+      possibles.push(poss)
+    })
+  })
 
-  return polyline.encode(line)
+  let best = possibles.reduce((a,b)=>a.length < b.length ? a : b)
+
+  return polyline.encode(best)
 }
 
 
-function findMin(line, lngLat) {
+function findMins(line, lngLat, num) {
   let lineMap = line.map((coord, idx) => ({
     distance: distance(lngLat, {latitude:coord[0],longitude:coord[1]}), // coord: [lat, lon]
     idx
-  }))
+  })).sort((a,b)=>a.distance - b.distance)
 
-  let best = lineMap.reduce((a,b) => a.distance < b.distance ? a : b)
-  return best.idx
+  return lineMap.slice(0,num)
 }
