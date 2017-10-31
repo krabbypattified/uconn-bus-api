@@ -132,9 +132,11 @@ export async function getArrivals() {
 // }
 
 export async function getArrivalsAtBusStop(stop) {
-  let x = await getArrivals()
-	let y = x.filter(arrival => stop.altIds.includes(arrival.busStopAltId))
-  return y
+	return (await getArrivals()).filter(arrival => stop.altIds.includes(arrival.busStopAltId))
+}
+
+export async function getArrivalsForBus(bus) {
+	return (await getArrivals()).filter(arrival => bus.id.includes(arrival.busId))
 }
 
 // NOTE this repeats for EVERY bus stop on EVERY bus line

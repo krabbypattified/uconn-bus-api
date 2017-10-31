@@ -1,4 +1,4 @@
-import {getArrivals, getLineById} from './connector'
+import {getArrivalsForBus, getLineById} from './connector'
 import BusLine from './BusLine'
 import Arrival from './Arrival'
 
@@ -13,6 +13,6 @@ export default class Bus {
 	}
 
 	async arrivals() {
-		return (await getArrivals()).map(arrival => new Arrival(arrival))
+		return (await getArrivalsForBus(this)).map(arrival => new Arrival(arrival))
 	}
 }
