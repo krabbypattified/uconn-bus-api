@@ -14,7 +14,6 @@ export default class Arrival {
 
 	async stop() {
     let x = await getStopByAltId(this.busStopAltId)
-    if (x===undefined) console.log(this.busStopAltId)
 		return new BusStop(x)
 	}
 }
