@@ -79,7 +79,7 @@ getBusLinesStopsRAW.load('').then(raw => {
 
 
 // EXPORTS
-
+// TODO use VehicleEstimates for more accurate ETAs?
 export async function getArrivals() {
 	let rawArrivals = await getArrivalsRAW.load('')
 	let arrivals = []
@@ -89,6 +89,7 @@ export async function getArrivals() {
     if (!ROUTESTOPIDSET.has(aList.RouteStopID)) return
 
 		aList['ScheduledTimes'].forEach(arrival => {
+      if (arrival.AssignedVehicleId === 0) return // Bugfix
 			arrivals.push({
 				busId: arrival.AssignedVehicleId,
 				busLineId: aList.RouteID,
@@ -182,6 +183,7 @@ export async function getBusById(id) {
 	if (bus) return bus
 	// if bus not found among active buses for some WEIRD reason
 	bus = (await getVehicleRoutesRAW.load('')).filter(bus => bus.VehicleID === id)[0]
+  debugger
 	return {
 		id,
 		busLineId: bus.RouteID
