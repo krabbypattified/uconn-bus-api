@@ -3,7 +3,6 @@ import DataLoader from 'dataloader'
 import LRU from 'lru-cache'
 
 
-
 // CACHE
 let cache = LRU()
 async function fetch(opt) {
@@ -15,7 +14,7 @@ async function fetch(opt) {
 	return res
 }
 
-
+// TODO pick better endpoints
 
 // API CALLS
 const rootURL = 'http://www.uconnshuttle.com/Services/JSONPRelay.svc'
@@ -25,7 +24,7 @@ let getArrivalsRAW = new DataLoader(async keys => {
 		uri: `${rootURL}/GetRouteStopArrivals`,
 		qs: {TimesPerStopString: 20}, // Number of estimated arrivals to show per bus stop
 		json: true,
-		maxAge: 15*1000
+		maxAge: 30*1000
 	})
 	return keys.map(_=>res)
 }, { cache: false })
@@ -56,18 +55,6 @@ let getVehicleRoutesRAW = new DataLoader(async keys => {
 	})
 	return keys.map(_=>res)
 }, { cache: false })
-/*[{
-	UniqueID: "fb6e056e-e9b1-43ea-9974-0b25e2f1f202",
-	DelayedStartTime: "/Date(-62135571600000-0700)/",
-	FromAdmin: false,
-	GpsGateUserName: "uconn25",
-	IsDelayed: false,
-	PersonID: 6,
-	RouteID: 0,								Bus Line ID
-	VehicleID: 54,							Bus ID
-	VehicleName: "1701"
-}...]*/
-
 
 let ROUTESTOPIDSET = new Set()
 getBusLinesStopsRAW.load('').then(raw => {
@@ -78,8 +65,8 @@ getBusLinesStopsRAW.load('').then(raw => {
 
 
 
-// EXPORTS
-// TODO use VehicleEstimates for more accurate ETAs?
+
+// TODO use VehicleEstimates ONLY
 export async function getArrivals() {
 	let rawArrivals = await getArrivalsRAW.load('')
 	let arrivals = []
@@ -101,36 +88,11 @@ export async function getArrivals() {
 
 	return arrivals
 }
-// export async function getArrivals() {
-// 	let rawArrivals = await getArrivalsRAW.load('')
-// 	let arrivals = []
-//
-// 	rawArrivals.forEach(aList => {
-// 		let aModList = {}
-//
-// 		aList['ScheduledTimes'].forEach(arrival => {
-// 			if (arrival.AssignedVehicleId in aModList) return
-// 			aModList[arrival.AssignedVehicleId] = {
-// 				busId: arrival.AssignedVehicleId,
-// 				busLineId: aList.RouteID,
-// 				busStopAltId: aList.RouteStopID,
-// 				time: arrival.ArrivalTimeUTC.match(/\d+/)[0],
-// 			}
-// 		})
-//
-// 		// aList['VehicleEstimates'].forEach(arrival => {
-// 		// 	if (!arrival.VehicleID in aModList) return
-// 		// 	let ETA = Date.now() - arrival.SecondsToStop * 1000
-// 		// 	if (ETA < 0) return
-// 		// 	aModList[arrival.VehicleID].time = ETA
-// 		// })
-//
-// 		aModList = Object.values(aModList)
-// 		arrivals.push(...aModList)
-// 	})
-//
-// 	return arrivals
-// }
+
+// TODO use ScheduledTimes ONLY
+export async function getTimetables() {
+
+}
 
 export async function getArrivalsAtBusStop(stop) {
 	return (await getArrivals()).filter(arrival => stop.altIds.includes(arrival.busStopAltId))
@@ -139,30 +101,6 @@ export async function getArrivalsAtBusStop(stop) {
 export async function getArrivalsForBus(bus) {
 	return (await getArrivals()).filter(arrival => bus.id===arrival.busId)
 }
-
-// NOTE this repeats for EVERY bus stop on EVERY bus line
-/*[{
-	"RouteID":31,											Which Line the Stop Belongs to (31 = Silver)
-	"RouteStopID":578,										The Stop ID Specific to (Silver) Line
-	"ScheduledTimes":[										YOU CAN PROBABLY IGNORE THIS
-		{
-			"ArrivalTimeUTC":"\/Date(1504891260000)\/",		Next (Silver) Bus Arrival Time
-			"AssignedVehicleId":40,							ID for That (Silver) Bus
-			"DepartureTimeUTC":"\/Date(1504891260000)\/"
-		},
-		...
-	],
-	"VehicleEstimates":[									Estimated Arrivals for (Silver) Line
-		{
-			"OnRoute":true,
-			"SecondsToStop":658,							When That (Silver) Bus Arrives
-			"VehicleID":40									ID for That (Silver) Bus
-		},
-		...
-	]
-},...]*/
-
-
 
 export async function getLiveBusStats() {
 	let rawBusStats = await getLiveBusStatsRAW.load('')
@@ -189,24 +127,6 @@ export async function getBusById(id) {
 		busLineId: bus.RouteID
 	}
 }
-
-// NOTE this is the current location of all the buses
-/*[{
-	"GroundSpeed":16.15515388638,							Speed (mph??)
-	"Heading":261,											Angle (relative to??)
-	"IsDelayed":false,
-	"IsOnRoute":true,
-	"Latitude":41.80553,									Latitude
-	"Longitude":-72.24607,									Longitude
-	"Name":"232",
-	"RouteID":31,											Bus Route ID (31 = Silver)
-	"Seconds":1,
-	"TimeStamp":"\/Date(1504911410000-0600)\/",
-	"VehicleID":40											Bus ID (i.e. the first Silver bus)
-},...]
-`*/
-
-
 
 async function getLinesAndStops() {
 	let rawBusLinesStops = await getBusLinesStopsRAW.load('')
@@ -277,48 +197,6 @@ export async function getStopById(id) {
 export async function getStopByAltId(altId) {
 	return (await getStops()).filter(stop => stop.altIds.includes(altId))[0]
 }
-
-// NOTE this got called once per page load. it returns 1 result for each color bus.
-/*[{
-	"Description":"Purple",									Bus Line
-	"ETATypeID":3,
-	"EncodedPolyline":"RnCFt@@PBRDZBL.............",		Bus Line Route Coords
-	"IsVisibleOnMap":true,
-	"Landmarks":[],
-	"MapLatitude":41.810087,
-	"MapLineColor":"#8000FF",
-	"MapLongitude":-72.26602,
-	"Order":1,
-	"RouteID":33,											Purple Line's ID
-	"Stops":[												All Stops for Purple Line
-		{
-		"AddressID":163,									Bus Stop ID :)
-		"City":"Storrs",
-		"Latitude":41.809269,								Stop Latitude
-		"Line1":"Visitor Center Outbound",
-		"Line2":"",
-		"Longitude":-72.261484,								Stop Longitude
-		"State":"CT",
-		"Zip":"06269",
-		"Description":"Visitor Center Outbound",			Stop Name
-		"Heading":0,
-		"MapPoints":[],
-		"MaxZoomLevel":1,
-		"Order":1,
-		"RouteDescription":"",
-		"RouteID":33,										Purple Line's ID
-		"RouteStopID":627,									Bus Stop ID for this Route, in order [627,631,632,633,634,...]
-		"SecondsAtStop":10,
-		"SecondsToNextStop":170,
-		"ShowDefaultedOnMap":true,
-		"ShowEstimatesOnMap":true,
-		"SignVerbiage":"Visitor Center Outbound",
-		"TextingKey":""
-		},
-		...
-	]
-},...]
-*/
 
 
 // Color Helper
