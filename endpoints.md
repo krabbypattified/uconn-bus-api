@@ -1,3 +1,18 @@
+http://www.uconnshuttle.com/Services/JSONPRelay.svc?wsdl =wsdl[0-16]
+http://www.uconnshuttle.com/Services/JSONPRelay.svc?xsd=xsd0 =xsd[0-16?]
+
+
+## Possibles
+#####http://www.uconnshuttle.com/Services/JSONPRelay.svc/GetScheduleTripStopTimesPaged?page=1&rows=1&scheduleTripID=200
+#####http://www.uconnshuttle.com/Services/JSONPRelay.svc/GetScheduleFutureStopTimes?timesPerStopString=10&routeIDString=31&routeStopIDString=165
+##http://www.uconnshuttle.com/Services/JSONPRelay.svc/GetScheduleTripVehiclesPaged?page=1&rows=1&scheduleVehicleCalendarID=1
+#http://www.uconnshuttle.com/Services/JSONPRelay.svc/GetScheduleTripsPaged?page=1&rows=1&scheduleID=1
+#http://www.uconnshuttle.com/Services/JSONPRelay.svc/GetScheduleTripsByRoutePaged?page=1&rows=1&scheduleID=1&routeID=21
+http://www.uconnshuttle.com/Services/JSONPRelay.svc/GetScheduleVehicleCalendarsPaged?page=1&rows=1&scheduleID=1
+http://www.uconnshuttle.com/Services/JSONPRelay.svc/GetSchedulesPaged?page=1&rows=3&routeId=31&showInactive=true
+http://www.uconnshuttle.com/Services/JSONPRelay.svc/GetScheduleCalendarsPaged?page=1&rows=1&scheduleID=1
+
+
 GetMapVehiclePoints - live bus data
 
 GetRouteStopArrivals - live arrivals + scheduled arrivals (sometimes)
@@ -6,7 +21,7 @@ GetRouteVehicleEstimates - live arrivals
 GetStopArrivalTimes - live arrivals
 GetMapStopEstimates - live arrivals
 
-Calendar* - could be what i'm looking for!
+Calendar*, GetScheduleTrip* - **could be what i'm looking for, prob not**
 
 GetRoutesForMapWithScheduleWithEncodedLine - stops for each bus line
 GetRoutesForMap - stops for each bus line
