@@ -1,60 +1,38 @@
 import rp from 'request-promise'
 import DataLoader from 'dataloader'
 import LRU from 'lru-cache'
+import join from 'url-join'
 
-
-// CACHE
-let cache = LRU()
-async function fetch(opt) {
-	let res = cache.get(opt.uri)
-	if (res) return res
-	console.log(`fetching ${opt.uri}`)
-	res = await rp(opt)
-	cache.set(opt.uri, res, opt.maxAge || 0) // max age
-	return res
-}
-
-// TODO pick better endpoints
 
 // API CALLS
-const rootURL = 'http://www.uconnshuttle.com/Services/JSONPRelay.svc'
+const rootURL = 'http://www.uconnshuttle.com/Services/JSONPRelay.svc/'
 
-let getArrivalsRAW = new DataLoader(async keys => {
-	let res = await fetch({
-		uri: `${rootURL}/GetRouteStopArrivals`,
-		qs: {TimesPerStopString: 20}, // Number of estimated arrivals to show per bus stop
-		json: true,
-		maxAge: 30*1000
-	})
-	return keys.map(_=>res)
-}, { cache: false })
+let getAllArrivalsRAW = CustomDataLoader({
+  path: `GetRouteStopArrivals`,
+  qs: {TimesPerStopString: 250},
+  maxAge: 100
+})
 
-let getLiveBusStatsRAW = new DataLoader(async keys => {
-	let res = await fetch({
-		uri: `${rootURL}/GetMapVehiclePoints`,
-		json: true,
-		maxAge: 100
-	})
-	return keys.map(_=>res)
-}, { cache: false })
+let getArrivalsRAW = CustomDataLoader({
+  path: `GetRouteStopArrivals`,
+  qs: {TimesPerStopString: 20}, // Number of estimated arrivals to show per bus stop
+  maxAge: 30*1000
+})
 
-let getBusLinesStopsRAW = new DataLoader(async keys => {
-	let res = await fetch({
-		uri: `${rootURL}/GetRoutesForMapWithScheduleWithEncodedLine`,
-		json: true,
-		maxAge: 24*60*60*1000 // 1 day
-	})
-	return keys.map(_=>res)
-}, { cache: false })
+let getLiveBusStatsRAW = CustomDataLoader({
+  path: `GetMapVehiclePoints`,
+  maxAge: 100
+})
 
-let getVehicleRoutesRAW = new DataLoader(async keys => {
-	let res = await fetch({
-		uri: `${rootURL}/GetVehicleRoutes`,
-		json: true,
-		maxAge: 24*60*60*1000 // 1 day
-	})
-	return keys.map(_=>res)
-}, { cache: false })
+let getBusLinesStopsRAW = CustomDataLoader({
+  path: `GetRoutesForMapWithScheduleWithEncodedLine`,
+  maxAge: 24*60*60*1000 // 1 day
+})
+
+let getVehicleRoutesRAW = CustomDataLoader({
+  path: `GetVehicleRoutes`,
+  maxAge: 24*60*60*1000 // 1 day
+})
 
 let ROUTESTOPIDSET = new Set()
 getBusLinesStopsRAW.load('').then(raw => {
@@ -66,14 +44,13 @@ getBusLinesStopsRAW.load('').then(raw => {
 
 
 
-// TODO use VehicleEstimates ONLY
+// TODO ETAs??
 export async function getArrivals() {
 	let rawArrivals = await getArrivalsRAW.load('')
 	let arrivals = []
 
 	rawArrivals.forEach(aList => {
-    // Bugfix
-    if (!ROUTESTOPIDSET.has(aList.RouteStopID)) return
+    if (!ROUTESTOPIDSET.has(aList.RouteStopID)) return // Bugfix
 
 		aList['ScheduledTimes'].forEach(arrival => {
       if (arrival.AssignedVehicleId === 0) return // Bugfix
@@ -89,10 +66,15 @@ export async function getArrivals() {
 	return arrivals
 }
 
-// TODO use ScheduledTimes ONLY
-export async function getTimetables() {
+// TODO Every morning, count buses every 5 minutes, until they don't change for 1hr.
+// If the buses change, get ALL 250 arrivals.
+// Overwrite the permanent timetable with a KEY of RouteID:RouteStopID:TimeOfDay
+let timeTable = {}
+async function getTimetable() {
 
 }
+// getTimetableForBusStop
+// getTimetableForBus
 
 export async function getArrivalsAtBusStop(stop) {
 	return (await getArrivals()).filter(arrival => stop.altIds.includes(arrival.busStopAltId))
@@ -196,6 +178,34 @@ export async function getStopById(id) {
 
 export async function getStopByAltId(altId) {
 	return (await getStops()).filter(stop => stop.altIds.includes(altId))[0]
+}
+
+
+
+
+// CACHE
+let cache = LRU()
+async function fetch(opt) {
+  let url = join(rootURL, opt.path)
+	let res = cache.get(url)
+	if (res) return res
+	console.log(`fetching ${opt.path}`)
+	res = await rp({
+    qs: opt.qs,
+    json: true,
+    uri: url,
+  })
+	cache.set(url, res, opt.maxAge || 0) // max age
+	return res
+}
+
+
+// Dataloader
+function CustomDataLoader(opts) {
+  return new DataLoader(async keys => {
+  	let res = await fetch(opts)
+  	return keys.map(_=>res)
+  }, { cache: false })
 }
 
 

@@ -16,9 +16,9 @@ http://www.uconnshuttle.com/Services/JSONPRelay.svc/GetScheduleCalendarsPaged?pa
 GetMapVehiclePoints - live bus data
 
 GetRouteStopArrivals - live arrivals + scheduled arrivals (sometimes)
+GetStopArrivalTimes - live arrivals
 GetMapStopEstimates - live arrivals
 GetRouteVehicleEstimates - live arrivals
-GetStopArrivalTimes - live arrivals
 GetMapStopEstimates - live arrivals
 
 Calendar*, GetScheduleTrip* - **could be what i'm looking for, prob not**
@@ -32,6 +32,27 @@ GetVehicleRoutes - match buses to busLines
 GetRouteSchedules - yuck
 GetVehicleRoutes - meh
 GetRouteStopScheduleTimes - yuck
+
+
+
+GetScheduleFutureStopTimesWithEstimates
+[
+{
+  RouteID
+  RouteStopID
+  StopTimes: [
+    {
+      ArrivalTime /Date(1510195440000)/
+      DepartureTime /Date(1510195440000)/
+      EstimateTime /Date(-62135571600000-0700)/
+      SecondsToStop 0
+      StopTime /Date(1510195440000)/
+    }
+    ...
+  ]
+}
+  ...
+]
 
 
 
