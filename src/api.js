@@ -23,15 +23,15 @@ export const schema = buildSchema(`
     heading: Float
     speed: Float
     busLine: BusLine!
-    arrivals: [Arrival!]
+    arrivals: [Arrival]!
   }
 
   type BusLine {
     id: Int!
     name: String!
     path: String!
-    stops: [BusStop!]
-    buses: [Bus!]
+    stops: [BusStop]!
+    buses: [Bus]!
     color: String!
   }
 
@@ -40,8 +40,8 @@ export const schema = buildSchema(`
     name: String!
     latitude: Float!
     longitude: Float!
-    arrivals: [Arrival!]
-    busLines: [BusLine!]
+    arrivals: [Arrival]!
+    busLines: [BusLine]!
   }
 
   type Arrival {
@@ -52,11 +52,11 @@ export const schema = buildSchema(`
 
   type Query {
     bus(id: Int!): Bus
-    buses: [Bus!]
+    buses: [Bus]!
     busLine(id: Int!): BusLine
-    busLines: [BusLine!]
+    busLines: [BusLine]!
     busStop(id: Int!): BusStop
-    busStops: [BusStop!]
+    busStops: [BusStop]!
     directions(from:LngLat!, to: LngLat!): Route
   }
 `)
