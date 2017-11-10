@@ -12,7 +12,10 @@ export default class Bus {
 		return new BusLine(await getLineById(this.busLineId))
 	}
 
-	async arrivals() {
-		return (await getArrivalsForBus(this)).map(arrival => new Arrival(arrival))
+  async arrivals({before, limit}) {
+		let arrivals = await getArrivalsAtBusStop(this)
+    if (before) arrivals = arrivals.filter(a => a.time < before)
+    if (limit) arrivals = arrivals.slice(0, limit)
+    return arrivals.map(arrivals => new Arrival(arrivals))
 	}
 }

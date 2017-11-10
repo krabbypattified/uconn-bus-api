@@ -23,7 +23,7 @@ export const schema = buildSchema(`
     heading: Float
     speed: Float
     busLine: BusLine!
-    arrivals: [Arrival]!
+    arrivals(before: Float, limit: Int): [Arrival]!
   }
 
   type BusLine {
@@ -40,7 +40,7 @@ export const schema = buildSchema(`
     name: String!
     latitude: Float!
     longitude: Float!
-    arrivals: [Arrival]!
+    arrivals(before: Float, limit: Int): [Arrival]!
     busLines: [BusLine]!
   }
 

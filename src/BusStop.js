@@ -8,8 +8,11 @@ export default class BusStop {
 		Object.assign(this, args)
 	}
 
-	async arrivals() {
-		return (await getArrivalsAtBusStop(this)).map(arrivals => new Arrival(arrivals))
+	async arrivals({before, limit}) {
+		let arrivals = await getArrivalsAtBusStop(this)
+    if (before) arrivals = arrivals.filter(a => a.time < before)
+    if (limit) arrivals = arrivals.slice(0, limit)
+    return arrivals.map(arrivals => new Arrival(arrivals))
 	}
 
 	async busLines() {
