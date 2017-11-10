@@ -77,8 +77,7 @@ async function getTimetable() {
 // getTimetableForBus
 
 export async function getArrivalsAtBusStop(stop) {
-  debugger
-	return (await getArrivals()).filter(arrival => stop.altIds.includes(arrival.busStopAltId))
+	return (await getArrivals()).filter(arrival => stop.altIds&&stop.altIds.includes(arrival.busStopAltId))
 }
 
 export async function getArrivalsForBus(bus) {
