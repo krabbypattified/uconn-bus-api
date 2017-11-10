@@ -8,7 +8,9 @@ export default class BusStop {
 		Object.assign(this, args)
 	}
 
-	async arrivals({before, limit}) {
+	async arrivals(args={}) {
+    let before = args.before || null
+    let limit = args.limit || null
 		let arrivals = await getArrivalsAtBusStop(this)
     if (before) arrivals = arrivals.filter(a => a.time < before)
     if (limit) arrivals = arrivals.slice(0, limit)
