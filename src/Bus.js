@@ -13,7 +13,7 @@ export default class Bus {
 	}
 
   async arrivals({before, limit}) {
-		let arrivals = await getArrivalsAtBusStop(this)
+		let arrivals = await getArrivalsForBus(this)
     if (before) arrivals = arrivals.filter(a => a.time < before)
     if (limit) arrivals = arrivals.slice(0, limit)
     return arrivals.map(arrivals => new Arrival(arrivals))

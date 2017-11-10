@@ -77,6 +77,7 @@ async function getTimetable() {
 // getTimetableForBus
 
 export async function getArrivalsAtBusStop(stop) {
+  debugger
 	return (await getArrivals()).filter(arrival => stop.altIds.includes(arrival.busStopAltId))
 }
 
@@ -103,11 +104,12 @@ export async function getBusById(id) {
 	if (bus) return bus
 	// if bus not found among active buses for some WEIRD reason
 	bus = (await getVehicleRoutesRAW.load('')).filter(bus => bus.VehicleID === id)[0]
-  debugger
-	return {
+  return bus
+  ? {
 		id,
 		busLineId: bus.RouteID
 	}
+  : {}
 }
 
 async function getLinesAndStops() {
