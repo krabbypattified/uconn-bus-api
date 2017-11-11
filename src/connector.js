@@ -222,7 +222,7 @@ function color(line) {
     case 30: return '#f28db7' // UCONN Health
     case 20: return '#ac7d51' // Charters & Specials
     case 37: return '#85d6d9' // Weekend
-    case 38: return '#ec6262' // Red
+    case 38: return '#ee4646' // Red
     default: {
       console.log('color bug', line.RouteID)
       return '#cd0000'
