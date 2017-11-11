@@ -213,16 +213,16 @@ function CustomDataLoader(opts) {
 // Color Helper
 function color(line) {
   switch(line.RouteID) {
-    case 39: return '#a566ff' // Purple
-    case 35: return '#4c53e4' // Blue
-    case 31: return '#42c65f' // Green
-    case 32: return '#ff962d' // Orange
+    case 39: return '#9669d7' // Purple
+    case 35: return '#4975d5' // Blue
+    case 31: return '#60c175' // Green
+    case 32: return '#ed9a47' // Orange
     case 34: return '#acacac' // Silver
     case 36: return '#333333' // Late Night
-    case 30: return '#ff86b9' // UCONN Health
+    case 30: return '#f28db7' // UCONN Health
     case 20: return '#ac7d51' // Charters & Specials
-    case 37: return '#7adde0' // Weekend
-    case 38: return '#ff4141' // Red
+    case 37: return '#85d6d9' // Weekend
+    case 38: return '#ec6262' // Red
     default: {
       console.log('color bug', line.RouteID)
       return '#cd0000'
