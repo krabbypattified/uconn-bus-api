@@ -4,14 +4,10 @@ import BusAPI from './BusAPI'
 import directions from './directions'
 import geocode from './geocode'
 
+// TODO color -> enum
 
 // Schema
 export const schema = buildSchema(`
-  input LngLat {
-    latitude: Float!
-    longitude: Float!
-  }
-
   type Route {
     hopOn: Arrival!
     hopOff: Arrival!
@@ -58,6 +54,17 @@ export const schema = buildSchema(`
     latitude: Float!
     longitude: Float!
     abbreviation: String
+    type: Type!
+  }
+
+  enum Type {
+    BUILDING
+    ADDRESS
+  }
+
+  input LngLat {
+    latitude: Float!
+    longitude: Float!
   }
 
   type Query {

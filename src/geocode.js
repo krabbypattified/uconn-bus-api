@@ -34,6 +34,14 @@ function Place(data) {
   return new Proxy(places, {
     get(target, prop) {
 
+      // Type prop
+      if (prop === 'type') {
+        for (let i = 0; i < places.length; i++) {
+          if (places[i].premise) return 'BUILDING'
+        }
+        return 'ADDRESS'
+      }
+
       // Address prop
       if (prop === 'address') {
         let address = {}
