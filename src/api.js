@@ -1,6 +1,9 @@
 import {buildSchema} from 'graphql'
+import buildings from './buildings'
 import BusAPI from './BusAPI'
 import directions from './directions'
+import geocode from './geocode'
+
 
 // Schema
 export const schema = buildSchema(`
@@ -50,7 +53,15 @@ export const schema = buildSchema(`
     time: Float!
   }
 
+  type Place {
+    name: String! # i.e. Bishop Center or 100 Horsebarn Hill Rd, Storrs, CT
+    latitude: Float!
+    longitude: Float!
+    abbreviation: String
+  }
+
   type Query {
+    buildings: [Place]!
     bus(id: Int!): Bus
     buses: [Bus]!
     busLine(id: Int!): BusLine
@@ -58,12 +69,14 @@ export const schema = buildSchema(`
     busStop(id: Int!): BusStop
     busStops: [BusStop]!
     directions(from:LngLat!, to: LngLat!): Route
+    geocode(lngLat:LngLat!): Place
   }
 `)
 
 
 // Root resolver
 export const rootValue = {
+  buildings: args => buildings(args),
   bus: args => BusAPI.getBus(args),
   buses: args => BusAPI.getBuses(args),
   busLine: args => BusAPI.getBusLine(args),
@@ -71,4 +84,5 @@ export const rootValue = {
   busStop: args => BusAPI.getBusStop(args),
   busStops: args => BusAPI.getBusStops(args),
   directions: args => directions(args),
+  geocode: args => geocode(args),
 }

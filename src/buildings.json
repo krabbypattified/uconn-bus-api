@@ -1,0 +1,465 @@
+[
+  {
+    "name": "Oak Hall",
+    "abbreviation": "OAK",
+    "longitude": -72.25116229999999,
+    "latitude": 41.8074488
+  },
+  {
+    "name": "Pharmacy/Biology Building",
+    "abbreviation": "PBB",
+    "longitude": -72.25514489999999,
+    "latitude": 41.8100808
+  },
+  {
+    "name": "Putnam Refectory",
+    "abbreviation": "PR",
+    "longitude": -72.2586061,
+    "latitude": 41.805077
+  },
+  {
+    "name": "Manchester Hall",
+    "abbreviation": "MAN",
+    "longitude": -72.2482919,
+    "latitude": 41.8080343
+  },
+  {
+    "name": "Wilson South Residence Hall",
+    "abbreviation": "WSRH",
+    "longitude": -72.2472494,
+    "latitude": 41.8048328
+  },
+  {
+    "name": "Music Library",
+    "abbreviation": "MLIB",
+    "longitude": -72.2444683,
+    "latitude": 41.804614
+  },
+  {
+    "name": "Torrey Life Sciences Building",
+    "abbreviation": "TLS",
+    "longitude": -72.2563626,
+    "latitude": 41.810311
+  },
+  {
+    "name": "United Technologies Engineering Building",
+    "abbreviation": "UTEB",
+    "longitude": -72.2555362,
+    "latitude": 41.8094215
+  },
+  {
+    "name": "Fine Arts Resource Center",
+    "abbreviation": "FARC",
+    "longitude": -72.2446546,
+    "latitude": 41.8046171
+  },
+  {
+    "name": "Agricultural Biotechnology Laboratory",
+    "abbreviation": "ABL",
+    "longitude": -72.25044129999999,
+    "latitude": 41.8136026
+  },
+  {
+    "name": "Art Ceramic Studio",
+    "abbreviation": "ACS",
+    "longitude": -72.2531154,
+    "latitude": 41.8041681
+  },
+  {
+    "name": "Art Building",
+    "abbreviation": "ARTB",
+    "longitude": -72.2456998,
+    "latitude": 41.8038429
+  },
+  {
+    "name": "Storrs Hall",
+    "abbreviation": "STRS",
+    "longitude": -72.252389,
+    "latitude": 41.8099413
+  },
+  {
+    "name": "J. Louis von der Mehden Recital Hall",
+    "abbreviation": "VDM",
+    "longitude": -72.24544929999999,
+    "latitude": 41.8049774
+  },
+  {
+    "name": "Physics Building",
+    "abbreviation": "PB",
+    "longitude": -72.2574084,
+    "latitude": 41.8093224
+  },
+  {
+    "name": "Wilbur O. Atwater Laboratory",
+    "abbreviation": "ATWR",
+    "longitude": -72.2549494,
+    "latitude": 41.8108458
+  },
+  {
+    "name": "Bishop Center",
+    "abbreviation": "BISH",
+    "longitude": -72.2431102,
+    "latitude": 41.8041126
+  },
+  {
+    "name": "Sprague Hall",
+    "abbreviation": "SRH",
+    "longitude": -72.247496,
+    "latitude": 41.808921
+  },
+  {
+    "name": "Biology/Physics Building",
+    "abbreviation": "BPB",
+    "longitude": -72.2566459,
+    "latitude": 41.80988
+  },
+  {
+    "name": "Wilbur Cross Building",
+    "abbreviation": "WCB",
+    "longitude": -72.2518197,
+    "latitude": 41.8091716
+  },
+  {
+    "name": "Student Health Services",
+    "abbreviation": "WSH",
+    "longitude": -72.253597,
+    "latitude": 41.81001
+  },
+  {
+    "name": "Charles Lewis Beach Hall",
+    "abbreviation": "BCH",
+    "longitude": -72.25001809999999,
+    "latitude": 41.8095173
+  },
+  {
+    "name": "Gordon W. Tasker Admissions Building",
+    "abbreviation": "TSK",
+    "longitude": -72.25705219999999,
+    "latitude": 41.8076854
+  },
+  {
+    "name": "Nathan L. Whetten Graduate Center",
+    "abbreviation": "WGC",
+    "longitude": -72.251975,
+    "latitude": 41.8058983
+  },
+  {
+    "name": "Architectural and Engineering Services",
+    "abbreviation": "AES",
+    "longitude": -72.2628289,
+    "latitude": 41.811133
+  },
+  {
+    "name": "Engineering II",
+    "abbreviation": "E2",
+    "longitude": -72.2554,
+    "latitude": 41.8091427
+  },
+  {
+    "name": "Chemistry Building",
+    "abbreviation": "CHM",
+    "longitude": -72.25387649999999,
+    "latitude": 41.810827
+  },
+  {
+    "name": "Jamie Homero Arjona Building",
+    "abbreviation": "ARJ",
+    "longitude": -72.2487974,
+    "latitude": 41.8064057
+  },
+  {
+    "name": "Willis Nichols Hawley Armory",
+    "abbreviation": "HAWL",
+    "longitude": -72.25072,
+    "latitude": 41.8077003
+  },
+  {
+    "name": "J. Ray Ryan Building",
+    "abbreviation": "JRB",
+    "longitude": -72.2507473,
+    "latitude": 41.8032572
+  },
+  {
+    "name": "Horse Unit I",
+    "abbreviation": "HU1",
+    "longitude": -72.244033,
+    "latitude": 41.8140604
+  },
+  {
+    "name": "School of Business",
+    "abbreviation": "BUSN",
+    "longitude": -72.25367539999999,
+    "latitude": 41.80593409999999
+  },
+  {
+    "name": "Jorgensen Center for the Performing Arts",
+    "abbreviation": "HJT",
+    "longitude": -72.2561638,
+    "latitude": 41.80857779999999
+  },
+  {
+    "name": "Thomas J. Dodd Research Center",
+    "abbreviation": "DODD",
+    "longitude": -72.2510908,
+    "latitude": 41.8058244
+  },
+  {
+    "name": "Homer Babbidge Library",
+    "abbreviation": "HBL",
+    "longitude": -72.2517451,
+    "latitude": 41.8066244
+  },
+  {
+    "name": "Koons Hall",
+    "abbreviation": "KNS",
+    "longitude": -72.2510222,
+    "latitude": 41.8085022
+  },
+  {
+    "name": "Edward V. Gant Science Complex",
+    "abbreviation": "GANT",
+    "longitude": -72.2571564,
+    "latitude": 41.8095617
+  },
+  {
+    "name": "Kellogg Dairy Center",
+    "abbreviation": "KEL",
+    "longitude": -72.2519293,
+    "latitude": 41.8183631
+  },
+  {
+    "name": "Math-Science Building",
+    "abbreviation": "MSB",
+    "longitude": -72.256732,
+    "latitude": 41.8092558
+  },
+  {
+    "name": "Harold G. Hewitt Building",
+    "abbreviation": "HEW",
+    "longitude": -72.24148819999999,
+    "latitude": 41.8024137
+  },
+  {
+    "name": "Weston A. Bousfield Psychology Building",
+    "abbreviation": "BOUS",
+    "longitude": -72.25035609999999,
+    "latitude": 41.8065892
+  },
+  {
+    "name": "Floriculture Greenhouse",
+    "abbreviation": "FG",
+    "longitude": -72.2520612,
+    "latitude": 41.8128767
+  },
+  {
+    "name": "Harry A. Gampel Pavilion",
+    "abbreviation": "GAMP",
+    "longitude": -72.2544231,
+    "latitude": 41.805293
+  },
+  {
+    "name": "Human Development Center",
+    "abbreviation": "HDC",
+    "longitude": -72.2489164,
+    "latitude": 41.8086044
+  },
+  {
+    "name": "Roy E. Jones Building",
+    "abbreviation": "JONS",
+    "longitude": -72.2484538,
+    "latitude": 41.8137275
+  },
+  {
+    "name": "Francis L. Castleman Building",
+    "abbreviation": "CAST",
+    "longitude": -72.25474799999999,
+    "latitude": 41.8081269
+  },
+  {
+    "name": "Ratcliffe Hicks Building and Arena",
+    "abbreviation": "RHBA",
+    "longitude": -72.2494901,
+    "latitude": 41.8122959
+  },
+  {
+    "name": "Family Studies Building",
+    "abbreviation": "FSB",
+    "longitude": -72.248935,
+    "latitude": 41.8086503
+  },
+  {
+    "name": "Information Technology Engineering",
+    "abbreviation": "ITE",
+    "longitude": -72.252895,
+    "latitude": 41.8065256
+  },
+  {
+    "name": "Institute of Material Sciences",
+    "abbreviation": "IMS",
+    "longitude": -72.2575212,
+    "latitude": 41.8098974
+  },
+  {
+    "name": "Philip E. Austin Building",
+    "abbreviation": "AUST",
+    "longitude": -72.2511919,
+    "latitude": 41.8104296
+  },
+  {
+    "name": "Laurel Hall",
+    "abbreviation": "LH",
+    "longitude": -72.2534118,
+    "latitude": 41.8071097
+  },
+  {
+    "name": "Horse Unit II",
+    "abbreviation": "HU2",
+    "longitude": -72.244033,
+    "latitude": 41.8140604
+  },
+  {
+    "name": "Andre Schenker Lecture Hall",
+    "abbreviation": "SCHN",
+    "longitude": -72.2497492,
+    "latitude": 41.80723039999999
+  },
+  {
+    "name": "Walter Childs Wood Hall",
+    "abbreviation": "WOOD",
+    "longitude": -72.2531329,
+    "latitude": 41.80921170000001
+  },
+  {
+    "name": "Lester E. Shippee Hall",
+    "abbreviation": "SPRH",
+    "longitude": -72.2446908,
+    "latitude": 41.8064797
+  },
+  {
+    "name": "George C. White Building",
+    "abbreviation": "WITE",
+    "longitude": -72.2495071,
+    "latitude": 41.81313859999999
+  },
+  {
+    "name": "Wilfred B. Young Building",
+    "abbreviation": "YNG",
+    "longitude": -72.2539805,
+    "latitude": 41.8077414
+  },
+  {
+    "name": "Henry R. Monteith Building",
+    "abbreviation": "MONT",
+    "longitude": -72.2492286,
+    "latitude": 41.80693249999999
+  },
+  {
+    "name": "Livestock Unit II",
+    "abbreviation": "LU2",
+    "longitude": -72.2443569,
+    "latitude": 41.8196121
+  },
+  {
+    "name": "Music Building",
+    "abbreviation": "MUSB",
+    "longitude": -72.2450258,
+    "latitude": 41.8052965
+  },
+  {
+    "name": "Rowe Center for Undergraduate Education",
+    "abbreviation": "ROWE",
+    "longitude": -72.2529098,
+    "latitude": 41.8077158
+  },
+  {
+    "name": "Carolyn Ladd Widmer Wing",
+    "abbreviation": "WIDM",
+    "longitude": -72.252204,
+    "latitude": 41.810009
+  },
+  {
+    "name": "Arthur B. Bronwell Building",
+    "abbreviation": "BRON",
+
+    "longitude": -72.25494689999999,
+    "latitude": 41.8087621
+  },
+  {
+    "name": "Biobehavioral Science Building 4",
+    "abbreviation": "B4-A",
+    "longitude": -72.240585,
+    "latitude": 41.814840
+  },
+  {
+    "name": "Cattle Resource Unit",
+    "abbreviation": "CRU",
+    "longitude": 72.245750,
+    "latitude": 41.820517
+  },
+  {
+    "name": "Biobehavioral Science Building 3",
+    "abbreviation": "B3",
+    "longitude": -72.240590,
+    "latitude": 41.815487
+  },
+  {
+    "name": "Biobehavioral Science Building 1",
+    "abbreviation": "B1",
+    "longitude": -72.240300,
+    "latitude": 41.815543
+  },
+  {
+    "name": "Greer Field House",
+    "abbreviation": "GRE",
+    "longitude": -72.256195,
+    "latitude": 41.806967
+  },
+  {
+    "name": "William H. Hall Building",
+    "abbreviation": "HALL",
+    "longitude": -72.251938,
+    "latitude": 41.808139
+  },
+  {
+    "name": "Biobehavioral Science Building 5",
+    "abbreviation": "B5",
+    "longitude": -72.241222,
+    "latitude": 41.815210
+  },
+  {
+    "name": "Drama/Music Building",
+    "abbreviation": "DRMU",
+    "longitude": -72.244502,
+    "latitude": 41.804172
+  },
+  {
+    "name": "Charles B. Gentry Building",
+    "abbreviation": "GENT",
+    "longitude": -72.253841,
+    "latitude": 41.808581
+  },
+  {
+    "name": "Livestock Unit I",
+    "abbreviation": "LU1",
+    "longitude": -72.242093,
+    "latitude": 41.817087
+  },
+  {
+    "name": "Merlie S. Klinck Building",
+    "abbreviation": "KLIN",
+    "longitude": -72.249745,
+    "latitude": 41.812883
+  },
+  {
+    "name": "Poultry Unit I",
+    "abbreviation": "PU1",
+    "longitude": -72.253225,
+    "latitude": 41.817630
+  },
+  {
+    "name": "David C. Phillips Communication Sciences Building",
+    "abbreviation": "PCSB",
+    "longitude": -72.248343,
+    "latitude": 41.802600
+  }
+]

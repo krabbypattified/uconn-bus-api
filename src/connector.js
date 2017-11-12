@@ -1,21 +1,16 @@
-import rp from 'request-promise'
 import DataLoader from 'dataloader'
-import LRU from 'lru-cache'
-import join from 'url-join'
+import fetch from './cache'
 
-
-// API CALLS
-const rootURL = 'http://www.uconnshuttle.com/Services/JSONPRelay.svc/'
 
 let getAllArrivalsRAW = CustomDataLoader({
   path: `GetRouteStopArrivals`,
-  qs: {TimesPerStopString: 250},
+  query: {TimesPerStopString: 250},
   maxAge: 100
 })
 
 let getArrivalsRAW = CustomDataLoader({
   path: `GetRouteStopArrivals`,
-  qs: {TimesPerStopString: 20}, // Number of estimated arrivals to show per bus stop
+  query: {TimesPerStopString: 20}, // Number of estimated arrivals to show per bus stop
   maxAge: 30*1000
 })
 
@@ -44,7 +39,6 @@ getBusLinesStopsRAW.load('').then(raw => {
 
 
 
-// TODO ETAs??
 export async function getArrivals() {
 	let rawArrivals = await getArrivalsRAW.load('')
 	let arrivals = []
@@ -183,28 +177,10 @@ export async function getStopByAltId(altId) {
 
 
 
-
-// CACHE
-let cache = LRU()
-async function fetch(opt) {
-  let url = join(rootURL, opt.path)
-	let res = cache.get(url)
-	if (res) return res
-	console.log(`fetching ${opt.path}`)
-	res = await rp({
-    qs: opt.qs,
-    json: true,
-    uri: url,
-  })
-	cache.set(url, res, opt.maxAge || 0) // max age
-	return res
-}
-
-
 // Dataloader
 function CustomDataLoader(opts) {
   return new DataLoader(async keys => {
-  	let res = await fetch(opts)
+  	let res = await fetch(Object.assign(opts, {root: 'http://www.uconnshuttle.com/Services/JSONPRelay.svc/'}))
   	return keys.map(_=>res)
   }, { cache: false })
 }
