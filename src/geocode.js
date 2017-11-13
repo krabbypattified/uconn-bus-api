@@ -2,12 +2,13 @@ import fetch from './cache'
 
 
 export default async ({lngLat: {latitude, longitude}}) => {
+  console.log(latitude, longitude)
 
   let res = await fetch({
     root: 'https://maps.googleapis.com/maps/api/geocode/json',
     query: {
       key: 'AIzaSyBu1M4nRFBnEWQm4lsehWPFegNpED7q4DA',
-      latlng: `${latitude},${longitude}`,
+      latlng: `${latitude.toFixed(6)},${longitude.toFixed(6)}`,
       result_type: 'premise|street_address'
     }
   })
