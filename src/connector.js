@@ -187,21 +187,19 @@ function CustomDataLoader(opts) {
 
 
 // Color Helper
+// When you modify this, modify the BusLineColor API Enum
 function color(line) {
   switch(line.RouteID) {
-    case 39: return '#9669d7' // Purple
-    case 35: return '#4975d5' // Blue
-    case 31: return '#60c175' // Green
-    case 32: return '#ed9a47' // Orange
-    case 34: return '#acacac' // Silver
-    case 36: return '#333333' // Late Night
-    case 30: return '#f28db7' // UCONN Health
-    case 20: return '#ac7d51' // Charters & Specials
-    case 37: return '#85d6d9' // Weekend
-    case 38: return '#ee4646' // Red
-    default: {
-      console.log('color bug', line.RouteID)
-      return '#cd0000'
-    }
+    case 38: return 'RED'
+    case 32: return 'ORANGE'
+    case 31: return 'GREEN'
+    case 35: return 'BLUE'
+    case 39: return 'PURPLE'
+    case 34: return 'SILVER'
+    case 36: return 'NIGHT'
+    case 37: return 'WEEKEND'
+    case 30: return 'HEALTH'
+    case 20: return 'CHARTER'
+    default: return 'DEFAULT'
   }
 }

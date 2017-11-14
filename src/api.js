@@ -31,7 +31,7 @@ export const schema = buildSchema(`
     path: String!
     stops: [BusStop]!
     buses: [Bus]!
-    color: String!
+    color: BusLineColor!
   }
 
   type BusStop {
@@ -54,12 +54,26 @@ export const schema = buildSchema(`
     latitude: Float!
     longitude: Float!
     abbreviation: String
-    type: Type!
+    type: PlaceType!
   }
 
-  enum Type {
+  enum PlaceType {
     BUILDING
     ADDRESS
+  }
+
+  enum BusLineColor {
+    RED
+    ORANGE
+    GREEN
+    BLUE
+    PURPLE
+    SILVER
+    NIGHT
+    WEEKEND
+    HEALTH
+    CHARTER
+    DEFAULT
   }
 
   input LngLat {
