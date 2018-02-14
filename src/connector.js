@@ -191,9 +191,13 @@ function CustomDataLoader(opts) {
 function color(line) {
   switch(line.RouteID) {
     case 38: return 'RED'
+    case 43: return 'RED'
     case 32: return 'ORANGE'
+    case 40: return 'ORANGE'
     case 31: return 'GREEN'
+    case 41: return 'GREEN'
     case 35: return 'BLUE'
+    case 42: return 'BLUE'
     case 39: return 'PURPLE'
     case 34: return 'SILVER'
     case 36: return 'NIGHT'
