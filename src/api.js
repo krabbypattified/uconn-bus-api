@@ -65,6 +65,7 @@ export const schema = buildSchema(`
   enum BusLineColor {
     RED
     ORANGE
+    YELLOW
     GREEN
     BLUE
     PURPLE
